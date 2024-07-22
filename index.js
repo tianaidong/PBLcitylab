@@ -43,9 +43,7 @@ const loadImageEvent = (image) => {
 
 
 const imageOnFinish = (params) => {
-    // 获取记录的位置
     const response = clickOffsetArray;
-    // 拦截设置response数据为点击位置
     params.response = response
 }
 
@@ -82,13 +80,24 @@ var timeline = [
         choices: ['Continue']
     },
 	{
-        type: jsPsychSurveyHtmlForm,
-        preamble: "Let's start simple! What is your age and gender?",
-        html: `
-            <p>Age: <input name="age" required/></p>
-            <p>Gender: <input name="gender" required/></p>
-        `
-    },
+		type: jsPsychSurveyHtmlForm,
+		preamble: "Let's start simple! What is your age and gender?",
+		html: `
+			<p>Age: <input type="range" name="age" min="1" max="100" value="5" oninput="this.nextElementSibling.value = this.value" required>
+			<output>25</output></p>
+			<p>Gender:</p>
+			<label>
+				<input type="radio" name="gender" value="woman" required> Woman
+			</label>
+			<label>
+				<input type="radio" name="gender" value="man" required> Man
+			</label>
+			<label>
+				<input type="radio" name="gender" value="non-binary" required> I prefer not to say
+			</label>
+		`
+	},
+
     {
         type: jsPsychHtmlButtonResponse,
         stimulus: `
@@ -123,6 +132,28 @@ var timeline = [
         on_finish: imageOnFinish
     },
     {
+        type: jsPsychHtmlButtonResponse,
+        stimulus: `
+        <div class="image-box">
+            <img src="images/4.png" alt="image" width="400" height="400">
+        </div>
+        `,
+        choices: ['Move to next image'],
+        on_load: () => loadImageEvent(4),
+        on_finish: imageOnFinish
+    },
+    {
+        type: jsPsychHtmlButtonResponse,
+        stimulus: `
+        <div class="image-box">
+            <img src="images/5.png" alt="image" width="400" height="400">
+        </div>
+        `,
+        choices: ['Move to next image'],
+        on_load: () => loadImageEvent(5),
+        on_finish: imageOnFinish
+    },
+    {
         type: jsPsychSurveyHtmlForm,
         preamble: "Sort by preference",
         html: `
@@ -141,6 +172,18 @@ var timeline = [
                 </div> 
                 <div>
                     <img src="images/3.png" width="200"/>
+                    <p>
+                        <input type="range" name="image3" min="0" max="5" value="0">
+                    </p>
+                </div> 
+                <div>
+                    <img src="images/4.png" width="200"/>
+                    <p>
+                        <input type="range" name="image3" min="0" max="5" value="0">
+                    </p>
+                </div> 
+                <div>
+                    <img src="images/5.png" width="200"/>
                     <p>
                         <input type="range" name="image3" min="0" max="5" value="0">
                     </p>
