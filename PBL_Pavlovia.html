@@ -19,6 +19,8 @@
     <script src="jspsych/dist/plugin-animation.js"></script>
     <script src="jspsych/dist/plugin-visual-spotlight.js"></script>
     <script src="jspsych/dist/plugin-visual-spotlight-title.js"></script>
+    <script type="text/javascript" src="lib/vendors/jquery-2.2.0.min.js"></script>
+    <script src="jspsych/dist/jspsych-7-pavlovia-2021.12.js"></script>
     <link href="css/jspsych_style.css" rel="stylesheet" type="text/css" />
 </head>
 
@@ -49,8 +51,53 @@
         display_element: 'jspsych-target'
     });
 
+    // Change depending on whether you are debugging or running the experiment in pavlovia
+    var pav = true; // PAVLOVIA FALSE (run offline) or PAVLOVIA TRUE (run online)
+    var debug = true;
+
+    if (debug) {
+        localStorage.lang = 'EN'
+        localStorage.loc = 'Blank'
+    };
+
     /* create timeline */
     var timeline = [];
+
+    /* optional - record participant ID/date/timestart */
+    var subject_id = jsPsych.randomization.randomID(15); // random participant ID with 15 characters
+    var TODAY = new Date();
+    var DD = String(TODAY.getDate()).padStart(2, '0');
+    var MM = String(TODAY.getMonth() + 1).padStart(2, '0');
+    var YYYY = TODAY.getFullYear();
+    const DATE = DD + "_" + MM + "_" + YYYY;
+    var timestart = String(TODAY.getTime()).padStart(2, '0');
+
+    jsPsych.data.addProperties({
+        subject: subject_id,
+        starttime: timestart,
+        date: DATE
+    });
+
+    /* set homepage variable */
+    var homepageURL = "https://citylab.ruhosting.nl/" + localStorage.loc + "_Homepage_" + localStorage.lang + ".html";
+
+    /* prepare Pavlovia server */
+    var pavloviaInfo;
+
+    if (pav) { /// only if pav is true
+        // init connection with pavlovia.org
+        var pavlovia_init = {
+            type: jsPsychPavlovia,
+            command: "init",
+            // Store info received by Pavlovia init into the global variable `pavloviaInfo`
+            setPavloviaInfo: function (info) {
+                console.log(info);
+                pavloviaInfo = info;
+            }
+        };
+        timeline.push(pavlovia_init);
+    }
+
 
     /* randomly select n NSD images */
     function getRandomElements(arr, n) {
@@ -352,6 +399,26 @@
             createQuestionTrial(question.en, question.nl, question.name)
         );
     });
+
+    /* save data to pavlovia (have this one before the outro) */
+    if (pav) {
+        var pavlovia_finish = {
+            type: jsPsychPavlovia,
+            command: "finish",
+            subject: subject_id,
+            // Thomas Pronk; your filter function here
+            dataFilter: function (data) {
+                return data;
+            },
+            // Thomas Pronk; call this function when we're done with the experiment and data reception has been confirmed by Pavlovia
+            completedCallback: function () {
+                alert('data successfully submitted!');
+            }
+        };
+
+        timeline.push(pavlovia_finish);
+    }
+
 
     /* explanation after experiment */
     var explanation = {
