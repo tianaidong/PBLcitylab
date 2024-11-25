@@ -1,0 +1,342 @@
+/* Donders Citylab colours:
+#ff908f - pink
+#8f0100 - dark red
+#ffbe00 - yellow/orange
+#fffaeb - beige
+ */
+
+/* additional information:
+screensize kiosk (L) = 
+screensize kiosk (S) = 1920 x 1080 px
+ */
+
+ @import url(https://fonts.googleapis.com/css?family=Atkinson+Hyperlegible);
+
+/* style of headers, text, body etc. */
+body {
+    margin: 20px;
+    font-family: 'Atkinson Hyperlegible';
+    background: #fffaeb;
+    max-height: 100%;
+}
+
+ul,
+li {
+    padding: 0;
+    list-style-type: none;
+}
+
+h1 {
+    color: #8f0100;
+    font-family: 'Atkinson Hyperlegible';
+    font-size: 70pt;
+    margin: 20px;
+}
+
+h2 {
+    color: #8f0100;
+    font-family: 'Atkinson Hyperlegible';
+    font-size: 60pt;
+    margin: 20px;
+}
+
+h3 {
+    color: black;
+    font-size: 30pt;
+    margin: 20px;
+}
+
+p,
+a,
+li {
+    color: black;
+    font-size: 30pt;
+    margin: 20px;
+}
+
+img {
+    width: 100%;
+}
+
+/* language menu */
+/* Style the list items */
+header .grid_language {
+    display: grid;
+    grid-template-columns: repeat(11, 140px);
+    grid-template-rows: 70px;
+    width: 100%;
+    gap: 30px;
+    max-width: 1920px;
+    margin: 20px auto;
+    max-height: 70px;
+}
+
+header .language-switcher {
+    grid-column: 10 / span 2;
+    align-self: center;
+    justify-self: center;
+}
+
+/* style list */
+.language-switcher ul li {
+    display: inline-block;
+    /* Display list items side by side */
+    margin-right: 8px;
+    /* Add spacing between list items */
+}
+
+/* Style the active language link */
+.language-switcher .active {
+    text-decoration: underline;
+    /* Underline the active language */
+    color: #8f0100;
+    /* Set the text color to red for the active language */
+}
+
+/* style inactive language */
+.language-switcher a {
+    text-decoration: none;
+}
+
+/* main homepage*/
+main {
+    max-width: 1920px;
+    max-height: 850px;
+}
+
+.text {
+    text-align: center;
+}
+
+.experimenten {
+    max-width: 1920px;
+    max-height: 600px;
+    margin: 0 auto;
+}
+.experimenten nav ul li {
+    max-height: 700px;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.experimenten nav li{
+    width: 30%;
+    text-align: center;
+}
+
+.experimenten nav ul li a img {
+    width: 75%;
+}
+
+nav ul li a {
+    text-decoration: none;
+}
+
+main .experimenten a p {
+    background-color: #ffbe00;
+    padding: 10px 20px;
+    border-radius: 50px;
+    text-decoration: none;
+    margin: 0px;
+    align-items: center;
+    text-align: center;
+}
+
+/* main index */
+.citylab_img {
+    max-height: 700px;
+    width: auto;
+}
+
+.index  {
+    display: grid;
+    grid-template-columns: repeat(11, 140px);
+    grid-template-rows: repeat(9, 30px);
+    width: 100%;
+    gap: 30px;
+    max-width: 1920px;
+    height: 850px;
+    align-items: center;
+}
+
+/* image */
+main .index .citylab_img {
+    grid-column: 1 / span 5;
+    grid-row: 1 / span 10;
+    border-radius: 6px;
+    align-self: center;
+}
+
+/* text */
+main .index .text {
+    grid-column: 5 / span 7;
+    grid-row: 7;
+    text-align: center;
+}
+
+main .index .text h2 {
+    margin-bottom: 40px;
+}
+
+main .index .text h3{
+    font-size: 60px;
+}
+
+.bolded {
+    font-weight: bold;
+}
+main .index p {
+    margin-bottom: 40px;
+}
+
+/* navigation to next page */
+main .index a {
+    background-color: #ffbe00;
+    padding: 10px 30px;
+    border-radius: 50px;
+    text-decoration: none;
+    margin-top: 50px;
+}
+
+/* logo's */
+footer .grid_logo {
+    display: grid;
+    grid-template-columns: repeat(11, 140px);
+    grid-template-rows: 70px;
+    width: 100%;
+    gap: 30px;
+    max-width: 1920px;
+    margin: 20px auto;
+    max-height: 70px;
+}
+
+footer img.Radboud {
+    grid-column: 1 / span 2;
+    grid-row: 1;
+    justify-self: start;
+    align-self: center;
+}
+
+footer img.MPI {
+    grid-column: 6 / span 2;
+    grid-row: 1;
+    justify-self: center;
+    align-self: center;
+    height: 70px;
+}
+
+footer img.Donders {
+    grid-column: 10 / span 2;
+    grid-row: 1;
+    justify-self: end;
+    align-self: center;
+}
+
+footer img.Citylab {
+    grid-column: 10 / span 2;
+    grid-row: 1;
+    justify-self: end;
+    align-self: center;
+}
+
+footer img {
+    width: auto;
+    height: 60px;
+    justify-items: center;
+}
+
+/* main homepage */
+/* main .grid_homepage {
+    display: ;
+    width: 100%;
+    gap: 30px;
+    max-width: 1920px;
+    margin: 20px auto;
+    height: 1080px;
+    align-items: center;
+} */
+/*
+main .grid_homepage .text {
+    display: grid;
+    grid-template-columns: repeat(11, 140px);
+    grid-template-rows: repeat(10, 30px);
+    width: 100%;
+    gap: 30px;
+    max-width: 1920px;
+    margin: 20px auto;
+    height: 1080px;
+    align-items: center;
+    justify-self: center;
+    text-align: center;
+}
+
+main .grid_homepage .text h2 {
+    display: inline;
+    grid-column: 2 / span 9;
+    grid-row: 1 / span 1;
+}
+
+main .grid_homepage .text h3 {
+    grid-column: 2 / span 9 !important;
+    grid-row: 3 / span 1 !important;
+}
+
+/* main .grid_homepage .experimenten ul {
+    display: grid;
+    grid-template-columns: repeat(11, 140px);
+    grid-template-rows: repeat(10, 30px);
+    width: 100%;
+    gap: 30px;
+    max-width: 1920px;
+    margin: 20px auto;
+    height: 1080px;
+} */
+/*
+main .grid_homepage .experimenten ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(6, 280);
+    /* Create 6 columns for the links
+    gap: 10px;
+    /* Adjust the gap between items as needed
+    justify-content: center;
+    /* Center the grid horizontally 
+}
+
+main .grid_homepage .experimenten li {
+    display: inline-block;
+    grid-column: span 2;
+    text-align: center;
+    /* Center-align text 
+    padding: 10px;
+    /* Add padding 
+    border-radius: 10px;
+    /* Add border radius 
+    margin-top: 10px;
+    /* Add margin at the top 
+    white-space: nowrap;
+}
+
+main .experimenten li a {
+    align-items: center;
+    text-align: center;
+    justify-items: center;
+}
+
+main .experimenten a p {
+    background-color: #ffbe00;
+    padding: 10px 30px;
+    border-radius: 50px;
+    text-decoration: none;
+    margin-top: 50px;
+    align-items: center;
+}
+
+main .experimenten a {
+    text-decoration: none;
+}
+
+main .experimenten img {
+    width: 100%;
+} */

@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Experiment name</title>
+    <script src="jspsych/dist/jspsych.js"></script>
+    <script src="jspsych/dist/plugin-html-button-response.js"></script>
+    <script src="jspsych/dist/plugin-html-slider-response.js"></script>
+    <script src="jspsych/dist/plugin-image-button-response.js"></script>
+    <script src="jspsych/dist/plugin-survey-multi-choice.js"></script>
+    <script src="jspsych/dist/plugin-survey-multi-select.js"></script>
+    <script src="jspsych/dist/plugin-image-slider-response.js"></script>
+    <script src="jspsych/dist/plugin-html-keyboard-response.js"></script>
+    <script src="jspsych/dist/plugin-image-keyboard-response.js"></script>
+    <script src="jspsych/dist/plugin-instructions.js"></script>
+    <script src="jspsych/dist/plugin-preload.js"></script>
+    <script src="jspsych/dist/plugin-animation.js"></script>
+    <script type="text/javascript" src="lib/vendors/jquery-2.2.0.min.js"></script>
+    <script src="jspsych/dist/jspsych-7-pavlovia-2021.12.js"></script>
+    <link href="css/jspsych_style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <script>
+        // This script loads the correct homepage. When you want a link to the homepage use an anchor element and add id="homepage"
+        window.onload = (function () {
+            var strLink = "https://citylab.ruhosting.nl/" + localStorage.loc + "_Homepage_" + localStorage.lang + ".html";
+            document.getElementById("homepage").setAttribute("href", strLink);
+        });
+    </script>
+
+    <header>
+        <div class="home"><a id="homepage"><img src="img/homebutton.svg" alt=""></a></div>
+    </header>
+    <main>
+        <div id="jspsych-target"></div>
+    </main>
+</body>
+
+<script>
+    // JsPsych template for Donders Citylab micro-experiments written by Y.S. Kuiper
+
+    /* initialize jsPsych - do not change */
+    var jsPsych = initJsPsych({
+        display_element: 'jspsych-target'
+    });
+
+    // Change depending on whether you are debugging or running the experiment in pavlovia
+    var pav = false; // PAVLOVIA FALSE (run offline) or PAVLOVIA TRUE (run online)
+    var debug = true;
+
+    if (debug) {
+        localStorage.lang = 'EN'
+        localStorage.loc = 'Blank'
+    };
+
+    /* create timeline */
+    var timeline = [];
+
+    /* optional - record participant ID/date/timestart */
+    var subject_id = jsPsych.randomization.randomID(15); // random participant ID with 15 characters
+    var TODAY = new Date();
+    var DD = String(TODAY.getDate()).padStart(2, '0');
+    var MM = String(TODAY.getMonth() + 1).padStart(2, '0');
+    var YYYY = TODAY.getFullYear();
+    const DATE = DD + "_" + MM + "_" + YYYY;
+    var timestart = String(TODAY.getTime()).padStart(2, '0');
+
+    jsPsych.data.addProperties({
+        subject: subject_id,
+        starttime: timestart,
+        date: DATE
+    });
+
+    // Dynamic url for going back to homepage. Use the variable homepageURL to go redirect participants to the homepage (see consent and end questions)
+    var homepageURL = "https://citylab.ruhosting.nl/" + localStorage.loc + "_Homepage_" + localStorage.lang + ".html";
+
+    // Prepare Pavlovia Server if pav true
+    var pavloviaInfo;
+
+    if (pav) { /// only if pav is true
+        /* init connection with pavlovia.org */
+        var pavlovia_init = {
+            type: jsPsychPavlovia,
+            command: "init",
+            // Store info received by Pavlovia init into the global variable `pavloviaInfo`
+            setPavloviaInfo: function (info) {
+                console.log(info);
+                pavloviaInfo = info;
+            }
+        };
+        timeline.push(pavlovia_init);
+    }
+
+    /* preload any images if needed*/
+    var preload = {
+        type: jsPsychPreload,
+        images: ['img/blue.png', 'img/orange.png', 'img/slider-brain.svg', 'img/image_bos.jpg', 'img/Dots-1.png', 'img/Dots-2.png']
+    };
+
+    timeline.push(preload);
+
+    /* pre-experiment explanation */
+    var instructions = {
+        type: jsPsychInstructions,
+        pages: function () {
+            if (localStorage.lang == "EN") {
+                return [
+                    '<div class="jspsych-instructions-header"><h1>Introduction</h1></div>' +
+                    '<div class="jspsych-instructions-body"><p>These instructions are used to introduce your experiment.</p>' +
+                    '<p>You can use as many pages as you like, but try to keep it short.</p>' +
+                    '<p>The following pages are examples of layout styles that you can use</p></div>', // Having a sentence per line creates breaks
+                    '<div class="jspsych-instructions-header"><h2>Example header/body</h2></div>' +
+                    '<div class="jspsych-instructions-body"><p>This layout style has a header (title) and a body with text/image all in one column</p></div>',
+                    '<div class="jspsych-instructions-column-left"><p>This layout style (column-left/right) has two equal columns i.o. one side with text and the other an image. <br>This is the left column.</p></div>' +
+                    '<div class="jspsych-instructions-column-right"><img src="img/blue.png"></img><p>this is the right column</p></div>',
+                    '<div class="jspsych-instructions-column-left-wide"><p>This layout option has 2 columns with different widths. There are two options: left wide and right narrow or left narrow and right wide.</p>' +
+                    '<p>This example has a wide left column and narrow right column.</p></div>' +
+                    '<div class="jspsych-instructions-column-right-narrow"><img src="img/blue.png"></img></div>',
+                    '<div class="jspsych-instructions-body-top"><p>Another option would be to have an one-column top part and two columns for the lower part. As shown here. This especially works well if you want to do two images with text.</p></div>' +
+                    '<div class="jspsych-instructions-body-column-left"><img src="img/blue.png"></img></div>' +
+                    '<div class="jspsych-instructions-body-column-right"><img src="img/orange.png"></img></div>',
+                ];
+            } else if (localStorage.lang == "NL") {
+                return [
+                '<div class="jspsych-instructions-header"><h1>Introductie</h1></div>' +
+                    '<div class="jspsych-instructions-body"><p>De instructies worden gebruikt om je experiment te introduceren.</p>' +
+                    '<p>Gebruik zoveel paginas als je wilt, maar hou het kort.</p>' +
+                    '<p>De volgende paginas zijn voorbeelden van de layout style die je kan gebruiken</p></div>', // Having a sentence per line creates breaks
+                    '<div class="jspsych-instructions-header"><h2>Voorbeeld header/body</h2></div>' +
+                    '<div class="jspsych-instructions-body"><p>Deze layout heeft een header (titel) en een body met text of afbeelding. Alles is in 1 kolom.</p></div>',
+                    '<div class="jspsych-instructions-column-left"><p>Deze layout style (column-left/right) heeft 2 kolommen, bijv. links met tekst en rechts een afbeelding. <br>Dit is de linker kolom.</p></div>' +
+                    '<div class="jspsych-instructions-column-right"><img src="img/blue.png"></img><p>Dit is de rechter kolom</p></div>',
+                    '<div class="jspsych-instructions-column-left-wide"><p>Deze layout heeft 2 kolommen (links en rechts) met verschillende breedte. Er zijn 2 opties; links breed en rechts small of links small en rechts breed.</p>' +
+                    '<p>Dit voorbeeld heeft een brede linker kolom en een smalle rechter </p></div>' +
+                    '<div class="jspsych-instructions-column-right-narrow"><img src="img/blue.png"></img></div>',
+                    '<div class="jspsych-instructions-body-top"><p>Deze layout style heeft het bovenste gedeelte in 1 kolom en het onderste gedeelte in 2 kolommen.</p>' +
+                    '<p>Deze opties is vooral goed als je twee afbeelding met wat tekst hebt.</p></div>' +
+                    '<div class="jspsych-instructions-body-column-left"><img src="img/blue.png"></img></div>' +
+                    '<div class="jspsych-instructions-body-column-right"><img src="img/orange.png"></img></div>',
+                ];
+            }
+        },
+        button_label_next: function () {
+            if (localStorage.lang == "EN") {
+                return "Continue";
+            } else if (localStorage.lang == "NL") {
+                return "Verder"
+            }
+        }, // do not change
+        button_label_previous: function () {
+            if (localStorage.lang == "EN") {
+                return "Previous";
+            } else if (localStorage.lang == "NL") {
+                return "Vorige"
+            }
+        }, // do not change
+        show_clickable_nav: true // do not change
+    }
+
+    timeline.push(instructions);
+
+    /* consent - do not change */
+    var consent = {
+        type: jsPsychHtmlButtonResponse,
+        stimulus: function () {
+            if (localStorage.lang == "EN") {
+                return '<p>You are about to participate in a research study.<br>By continuing, you agree that your anonymous response will be recorded, used for research purposes and stored for 10 years by the researchers.</p>';
+            } else if (localStorage.lang == "NL") {
+                return '<p>Je gaat zo deelnemen aan een onderzoek.<br>Als je verder gaat dan geef je toestemming dat jouw anonieme respons wordt vastgelegd, gebruikt voor onderzoeksdoeleinde en opgeslagen voor 10 jaar door de onderzoekers.</p>';
+            }
+        },
+        choices: function () {
+            if (localStorage.lang == "EN") {
+                return ['Yes, I give consent', '<a href="' + homepageURL + '">No, back to homepage</a>']
+            } else if (localStorage.lang == "NL") {
+                return ['Ja, ik geef toestemming', '<a href="' + homepageURL + '">Nee, terug naar begin pagina</a>']
+            }
+        }
+    };
+
+    timeline.push(consent);
+
+    /* with this question you can check whether someone has previously performed the experiment*/
+    // do not change
+    var repeat = {
+        type: jsPsychHtmlButtonResponse,
+        stimulus: function () {
+            if (localStorage.lang == "EN") {
+                return '<h3>Have you previously done this experiment?</h3>';
+            } else if (localStorage.lang == "NL") {
+                return '<h3>Heb jij dit experiment al eerder gedaan?</h3>';
+            }
+        },
+        choices: function () {
+            if (localStorage.lang == "EN") {
+                return ['No, not yet', 'Yes, but I want to do it again']
+            } else if (localStorage.lang == "NL") {
+                return ['Nee, nog niet', 'Ja, maar ik wil het nog een keer doen']
+            }
+        }
+    };
+
+    timeline.push(repeat);
+
+    /* age - do not change */
+    var age = {
+        type: jsPsychHtmlSliderResponse,
+        stimulus: function () {
+            if (localStorage.lang == "EN") {
+                return '<h3>What is your age?</h3>'
+            } else if (localStorage.lang == "NL") {
+                return '<h3>Wat is jouw leeftijd?</h3>'
+            }
+        },
+        slider_start: '--',
+        require_movement: true,
+        show_value: true,
+        labels: ['<p class=slider-anchor-left>0</p>', '<p class=slider-anchor-right>100</p>'],
+    };
+
+    timeline.push(age);
+
+    /* gender identity */
+    var gender = {
+        type: jsPsychSurveyMultiChoice,
+        questions: [
+            {
+                prompt: function () {
+                    if (localStorage.lang == "EN") {
+                        return '<h3>What do you identify most with?</h3>'
+                    } else if (localStorage.lang == "NL") {
+                        return '<h3>Waar identificeer jij je het meest mee?</h3>'
+                    }
+                },
+                name: 'GenderIdentity',
+                options: function () {
+                    if (localStorage.lang == "EN") {
+                        return ['Female', 'Male', 'Non-binary', 'Prefer not to say']
+                    } else if (localStorage.lang == "NL") {
+                        return ['Vrouw', 'Man', 'Non-binair', 'Zeg ik liever niet']
+                    }
+                },
+                required: true,
+            }],
+    };
+
+    timeline.push(gender);
+
+   /* add your experiment */
+    // change the var names based on what you want that variable to be called. Make sure you also change it in the timeline.push
+
+    /* example html button response (2 answer options) */
+    var htmlButton = {
+        type: jsPsychHtmlButtonResponse,
+        stimulus: function () {
+            if (localStorage.lang == "EN") {
+                return '<h3>Question goes here</h3><br><p>You can add extra explanation here</p>'
+            } else if (localStorage.lang == "NL") {
+                return '<h3>Stel je vraag hier</h3><br><p>Je kan hier extra uitleg geven</p>'
+            }
+        },
+        choices: function () {
+            if (localStorage.lang == "EN") {
+                return ['Yes', 'No']
+            } else if (localStorage.lang == "NL") {
+                return ['Ja', 'Nee']
+            }
+        }, /* response options */
+    };
+
+    timeline.push(htmlButton);
+
+    // example image button response (2 answer options)
+    var imageButton = {
+        type: jsPsychImageButtonResponse,
+        stimulus: 'img/blue.png', // add image
+        choices: function () {
+            if (localStorage.lang == "EN") {
+                return ['Choice1', 'Choice2']
+            } else if (localStorage.lang == "NL") {
+                return ['Keuze1', 'Keuze2']
+            }
+        },
+        prompt: function () {
+            if (localStorage.lang == "EN") {
+                return '<h3 class="jspsych-image-button-response-prompt">Question goes here</h3>'
+            } else if (localStorage.lang == "NL") {
+                return '<h3 class="jspsych-image-button-response-prompt">Stel je vraag hier</h3>'
+            }
+        }
+    };
+
+    timeline.push(imageButton);
+
+    // Multichoice example (can only select one answer)
+    var MultiChoice = {
+        type: jsPsychSurveyMultiChoice,
+        questions: [
+            {
+                prompt: function () {
+                    if (localStorage.lang == "EN") {
+                        return '<h3>Question goes here?</h3>'
+                    } else if (localStorage.lang == "NL") {
+                        return '<h3>Stel je vraag hier?</h3>'
+                    }
+                },
+                name: 'GenderIdentity',
+                options: function () {
+                    if (localStorage.lang == "EN") {
+                        return ['Option1', 'Option2', 'Option3', 'Etc']
+                    } else if (localStorage.lang == "NL") {
+                        return ['Optie1', 'Optie2', 'Optie3', 'Etc']
+                    }
+                },
+                required: true,
+            }],
+    };
+
+    timeline.push(MultiChoice);
+
+    /* example multi select (can select multiple answers) */
+        var multiSelect = {
+        type: jsPsychSurveyMultiSelect,
+        questions: [
+            {
+                prompt: function () {
+                    if (localStorage.lang == "EN") {
+                        return '<h3>Question goes here</h3><p class="jspsych-survey-multi-select-instruction">Multiple answers can be selected</p>'
+                    } else if (localStorage.lang == "NL") {
+                        return '<h3>Stel je vraag hier</h3><p class="jspsych-survey-multi-select-instruction">Meerdere antwoorden kunnen worden geselecteerd</p>'
+                    }
+                },
+                options: function () {
+                    if (localStorage.lang == "EN") {
+                        return ["Choice1", "Choice2", "Choice3", "Choice4", "Choice5"]
+                    } else if (localStorage.lang == "NL") {
+                        return ["Keuze1", "Keuze2", "Keuze3", "Keuze4", "Keuze5"]
+                    }
+                },
+                required: true, // only continue once answer is given
+                name: 'Example'
+            },
+        ],
+    };
+
+    timeline.push(multiSelect);
+
+   /* example slider question */
+   var htmlSlider = {
+        type: jsPsychHtmlSliderResponse,
+        stimulus: function () {
+            if (localStorage.lang == "EN") {
+                return '<h3>Question goes here</h3>'
+            } else if (localStorage.lang == "NL") {
+                return '<h3>Stel je vraag hier</h3>'
+            }
+        },
+        require_movement: true,
+        show_value: false, // if you want to show the current value that's entered, enter true here (see age question for example)
+        labels: function () {
+            if (localStorage.lang == "EN") {
+                return ['<h4 class=slider-anchor-left>Label left</h4>', '<h4 class=slider-anchor-middle>Label middle</h4>', '<h4 class=slider-anchor-right>Label right</h4>']
+            } else if (localStorage.lang == "NL") {
+                return ['<h4 class=slider-anchor-left>Label links</h4>', '<h4 class=slider-anchor-middle>Label midden</h4>', '<h4 class=slider-anchor-right>Label rechts</h4>']
+            }
+        }, /* Add labels for start, middle and end of the scale if desired 
+        you don't have to use the language function if you are using numbers 
+        You can also leave out the middle label*/
+    }
+
+    timeline.push(htmlSlider);
+
+/* example image slider response (not working!) */
+/* var imageSlider = {
+        type: jsPsychImageSliderResponse,
+        stimulus: 'img/orange.png',
+        slider_start: '--',
+        min: '0', // change the min. value (default 0)
+        max: '10', // change the max. value (default 100)
+        show_value: true,
+        require_movement: true,
+        labels: function () {
+            if (localStorage.lang == "EN") {
+                return ['<h4 class=slider-anchor-left>Label left</h4>', '<h4 class=slider-anchor-right>Label right</h4>']
+            } else if (localStorage.lang == "NL") {
+                return ['<h4 class=slider-anchor-left>Label links</h4>', '<h4 class=slider-anchor-right>Label rechts</h4>']
+            }
+        }, // you only need to use the language option when you are using text as labels.
+        prompt: function () {
+            if (localStorage.lang == "EN") {
+                return '<h3 class=jspsych-image-slider-response-prompt>Question goes here</h3>'
+            } else if (localStorage.lang == "NL") {
+                return '<h3 class=jspsych-image-slider-response-prompt>Stel je vraag hier</h3>'
+            }
+        },
+    }; 
+    /* Add labels for start, middle and end of the scale if desired 
+        you don't have to use the language function if you are using numbers 
+        You can also leave out the middle label*/
+
+   // timeline.push(imageSlider);    
+
+    /* example html keyboard response */
+    var KeyboardResp = {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: function () {
+            if (localStorage.lang == "EN") {
+                return '<h2 style="color:green;">BLUE</h2>'
+            } else if (localStorage.lang == "NL") {
+                return '<h2 style="color:green;">BLAUW</h2>'
+            }
+        }, // if you need to overwrite the colour of the text you can do it as shown here. Only do this if the colour is relevant for your experiment.
+        choices: "NO_KEYS", /* do not add any keys. The kiosks do not have the option for a keyboard! */
+        prompt: function () {
+            if (localStorage.lang == "EN") {
+                return '<div class="jspsych-html-keyboard-response-prompt"> <p>Optional instructions/question</p> </div>'
+            } else if (localStorage.lang == "NL") {
+                return '<div class="jspsych-html-keyboard-response-prompt"> <p>Optionele instructies/vraag</p> </div>'
+            }
+        },
+        trial_duration: 500 // in ms
+    };
+
+    timeline.push(KeyboardResp);
+
+    /* example image keyboard response */
+    var ImgKeyboard = {
+        type: jsPsychImageKeyboardResponse,
+        stimulus: 'img/image_bos.jpg',
+        choices: "NO_KEYS", /* do not add any keys. The kiosks do not have the option for a keyboard! */
+        prompt: function () {
+            if (localStorage.lang == "EN") {
+                return '<p class="jspsych-image-keyboard-response-prompt">Optional instructions/question</p>'
+            } else if (localStorage.lang == "NL") {
+                return '<p class="jspsych-image-keyboard-response-prompt">Optionele instructies/vraag</p>'
+            }
+        },
+        trial_duration: 500 // in ms
+    };
+
+    timeline.push(ImgKeyboard);
+
+    /* example animation */
+    var animation_sequence = ["img/illusie/purpledisk.png", "img/illusie/alternatedisks.png"]; /* define animation sequence */
+
+    var animation_trial = {
+        type: jsPsychAnimation,
+        stimuli: animation_sequence,
+        sequence_reps: 5, // specify number of sequence repeats (5 for testing) - 5 reps is 3 sec.
+        frame_time: 400, // time per image in ms
+        prompt: function () {
+            if (localStorage.lang == "EN") {
+                return ['<p class=jspsych-animation-prompt>optional instruction</p>']
+            } else if (localStorage.lang == "NL") {
+                return ['<p class=jspsych-animation-prompt>optionele instructies</p>']
+            }
+        },
+    };
+
+    timeline.push(animation_trial);
+
+    /* Example animation trial with a loop function. This will repeat the loop if participants choose to repeat */
+    var animation_trial2 = {
+        type: jsPsychAnimation,
+        stimuli: animation_sequence,
+        sequence_reps: 5, // specify number of sequence repeats (5 for testing) - 5 reps is 3 sec.
+        frame_time: 400, // time per image in ms
+    };
+
+    // no timeline.push because the animation will be pushed with the loop function
+
+    /* Q2 illusie */
+    var repeatQuestion = {
+        type: jsPsychSurveyMultiChoice,
+        questions: [
+            {
+                prompt: function () {
+                    if (localStorage.lang == "EN") {
+                        return "<h3 class=multi-choice-prompt>Which colours did you see on the left and right side of the animation?</h3>"
+                    } else if (localStorage.lang == "NL") {
+                        return "<h3 class=multi-choice-prompt>Welke kleuren zag jij aan de linker en rechterkant van de animatie?</h3>"
+                    }
+                },
+                options: function () {
+                    if (localStorage.lang == "EN") {
+                        return ['I would like to see the animation again', 'Option2', 'Option3', 'Option4']
+                    } else if (localStorage.lang == "NL") {
+                        return ['Ik wil de animatie nog een keer zien', 'Optie2', 'Optie3', 'Optie4']
+                    }
+                }, /* do not add paragraph or header tag */
+                required: true,
+            }],
+    }
+    // do not enter timeline.push. repeatQuestion is pushed with the loop function
+
+    var animation_loop = {
+        timeline: [animation_trial2, repeatQuestion],
+        loop_function: function (timeline) {
+            if (localStorage.lang == "EN") {
+                return timeline.values()[1].response.Q0 == 'I would like to see the animation again'
+            } else if (localStorage.lang == "NL") {
+                return timeline.values()[1].response.Q0 == 'Ik wil de animatie nog een keer zien'
+            }
+        }
+    };
+
+    timeline.push(animation_loop);
+
+// You can also add the instructions plugin in the experimental part. Especially useful when giving instructions
+
+    // save data to pavlovia (have this one before the outro)
+        if (pav) {
+        var pavlovia_finish = {
+            type: jsPsychPavlovia,
+            command: "finish",
+            subject: subject_id,
+            // Thomas Pronk; your filter function here
+            dataFilter: function (data) {
+                return data;
+            },
+            // Thomas Pronk; call this function when we're done with the experiment and data reception has been confirmed by Pavlovia
+            completedCallback: function () {
+                alert('data successfully submitted!');
+            }
+        };
+
+        timeline.push(pavlovia_finish);
+    }
+
+    /* end experiment or learn more */
+    var end = {
+        type: jsPsychHtmlButtonResponse,
+        stimulus: function () {
+            if (localStorage.lang == "EN") {
+                return '<p>Thank you for participating!</p><br><p>You can add some information here and ask them if they would you like to learn more.</p>'
+            } else if (localStorage.lang == "NL") {
+                return '<p>Dankjewel voor het meedoen!</p><br><p> Je kan hier informatie toevoegen en vragen of ze meer willen leren.</p>'
+            }
+        },
+        choices: function () {
+            if (localStorage.lang == "EN") {
+                return ['<a href="' + homepageURL + '">No, go to homepage</a>', 'Yes, continue']
+            } else if (localStorage.lang == "NL") {
+                return ['<a href="' + homepageURL + '">Nee, terug naar start</a>', 'Ja, ga verder']
+            }
+        }, /* add href */
+    };
+
+    timeline.push(end);
+
+     /* explanation after experiment */
+    var explanation = {
+        type: jsPsychInstructions,
+        pages: function () {
+            if (localStorage.lang == "EN") {
+                return [
+                    '<div class="jspsych-instructions-body"> <p>On these pages you will explain the concept that was studied. This sections works the same as the instructions at the start</p></div>',
+                    '<div class="jspsych-instructions-body"> <p>Remember to use classes for lay-out options.</p></div>'
+                ]
+            } else if (localStorage.lang == "NL") {
+                return [
+                    '<div class="jspsych-instructions-body"> <p>Hier geef je informatie over je onderzoek. De lay-out opties zijn hetzelfde als de introductie aan het begin van de experiment.</p></div>',
+                    '<div class="jspsych-instructions-body"> <p>Vergeet niet om classes toe te voegen voor verschillende lay-out opties.</p></div>'
+                ]
+            }
+        },
+        button_label_next: function () {
+            if (localStorage.lang == "EN") {
+                return "Continue"
+            } else if (localStorage.lang == "NL") {
+                return "Verder"
+            }
+        },
+        show_clickable_nav: true
+    }
+
+    timeline.push(explanation);
+
+    /* more info (QR) section */
+    var QR = {
+        type: jsPsychImageButtonResponse,
+        stimulus: 'img/Donders-Citylab-webpage-QR.png', // add QR code to webpage
+        choices: function () {
+            if (localStorage.lang == "EN") {
+                return ['<a href="' + homepageURL + '">Back to homepage</a>']
+            } else if (localStorage.lang == "NL") {
+                return ['<a href="' + homepageURL + '">Terug naar start</a>']
+            }
+        },
+        prompt: function () {
+            if (localStorage.lang == "EN") {
+                return '<p class="jspsych-image-button-response-prompt">Would you like to learn more? Scan the QR-code!</p>'
+            } else if (localStorage.lang == "NL") {
+                return '<p class="jspsych-image-button-response-prompt">Wil je meer leren? Scan de QR-code!</p>'
+            }
+        }
+    };
+
+    timeline.push(QR);
+
+    /* run the experiment */
+    jsPsych.run(timeline);
+
+</script>
+
+
+</html>

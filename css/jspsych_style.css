@@ -1,0 +1,874 @@
+/*
+ * CSS for jsPsych experiments.
+ *
+ * This stylesheet provides minimal styling to make jsPsych
+ * experiments look polished without any additional styles.
+ */
+
+ /* Donders Citylab colours:
+#ff908f - pink
+#8f0100 (#8E0000) - dark red
+#ffbe00 - yellow/orange
+#fffaeb - beige
+
+#8f0100 (#8E0000) - Dark red
+#C9A1A1 - Rosy brown
+#008E8E - Dark cyan
+#EEEBE3 - Alabaster
+
+ */
+
+/* import lettertypes */
+@import url(https://fonts.googleapis.com/css?family=Atkinson+Hyperlegible);
+/* @import url('https://fonts.googleapis.com/css?family=Poppins&display=swap'); */
+
+/* basic style of headers, text, body etc. */
+body {
+  margin: 20px;
+  font-family: 'Atkinson Hyperlegible';
+  background: #fffefa;
+  max-height: 100%;
+}
+
+ul,
+li {
+  padding: 0;
+  list-style-type: none;
+}
+
+h1 {
+  color: #8f0100;
+  font-size: 70pt;
+  margin: 20px;
+}
+
+h2 {
+  color: #8f0100;
+  font-size: 60pt;
+  margin: 20px;
+}
+
+h3 {
+  color: black;
+  /* maybe change to red */
+  font-size: 50pt;
+  margin: 20px;
+  font-weight: normal;
+}
+
+h4 {
+  color: black;
+  font-size: 30pt;
+  margin: 20px;
+  text-decoration: none;
+  font-weight: normal;
+}
+
+
+p,
+a,
+li {
+  color: black;
+  font-size: 40pt;
+  margin: 20px;
+  text-decoration: none;
+}
+
+c {
+  color: #8f0100;
+  font-size: 40pt;
+  margin: 20px;
+  text-decoration: none;
+}
+
+img {
+  width: 100%;
+}
+
+/* button style */
+.jspsych-btn {
+  font-family: "Atkinson Hyperlegible";
+  background-color: #008E8E;
+  padding: 10px 30px;
+  border-radius: 50px;
+  text-decoration: none;
+  margin-top: 50px;
+  color: black;
+  font-size: 30pt;
+  margin: 20px;
+  border: none;
+  text-align: center;
+}
+
+.jspsych-btn a {
+  font-size: 30pt;
+}
+
+/* only apply the hover style on devices with a mouse/pointer that can hover - issue #977 */
+@media (hover: hover) {
+  .jspsych-btn:hover {
+    background-color: #008E8E;
+    border-color: black;
+  }
+}
+
+.jspsych-btn:active {
+  background-color: #008E8E;
+  border-color: #000000;
+}
+
+.jspsych-btn:disabled {
+  background-color: #B0CECE;
+  color: #fffefa;
+  border-color: none;
+  cursor: not-allowed;
+}
+
+/* home button */
+header .home {
+  display: grid;
+  grid-template-columns: repeat(12, 160px);
+  grid-template-rows: 90px;
+  width: 100%;
+  gap: 30px;
+  max-width: 1920px;
+  margin: 20px auto;
+  max-height: 130px;
+  text-align: center;
+  margin: auto;
+}
+
+header .home a {
+  grid-column: 1;
+  align-self: center;
+  justify-self: center;
+}
+
+header .home a img {
+  width: 60%;
+}
+
+/* Container holding jsPsych content */
+
+/* prevent scrolling - NOTE BE CAREFULL ANY OVERFLOW WON'T SHOW */
+/*body {
+  overflow: hidden;
+}*/
+
+main {
+  max-width: 1920px;
+  max-height: 950px;
+}
+
+.jspsych-display-element {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.jspsych-display-element:focus {
+  outline: none;
+}
+
+.jspsych-content-wrapper {
+  display: flex;
+  margin: auto;
+  flex: 1 1 100%;
+  width: 100%;
+  max-width: 1980px;
+  max-height: 1020px;
+  overflow: hidden;
+}
+
+.jspsych-content {
+  display: grid;
+  grid-template-columns: repeat(11, 1fr);
+  grid-template-rows: repeat(11, 70px);
+  width: 100%;
+  gap: 30px;
+  max-width: 1920px;
+  margin: 20px auto;
+  max-height: 950px;
+  text-align: center;
+  margin: auto;
+}
+
+/* instructions*/
+.jspsych-content .jspsych-instructions-header {
+  grid-column: 2 / span 9;
+  grid-row: 1;
+  justify-self: center;
+  align-self: center;
+}
+
+.jspsych-content .jspsych-instructions-body {
+  grid-column: 2 / span 9;
+  grid-row: 2 / span 6;
+  justify-self: center;
+  align-self: top;
+}
+
+.jspsych-content .jspsych-instructions-column-left {
+  grid-column: 2 / span 4;
+  grid-row: 1 / span 7;
+  justify-self: center;
+  align-self: top;
+  text-align: left;
+}
+
+.jspsych-content .jspsych-instructions-column-right {
+  grid-column: 6 / span 4;
+  grid-row: 1 / span 7;
+  justify-self: center;
+  align-self: top;
+  text-align: left;
+}
+
+.jspsych-content .jspsych-instructions-column-left-wide {
+  grid-column: 2 / span 5;
+  grid-row: 1 / span 7;
+  justify-self: center;
+  align-self: top;
+  text-align: left;
+}
+
+.jspsych-content .jspsych-instructions-column-right-wide {
+  grid-column: 6 / span 5;
+  grid-row: 1 / span 7;
+  justify-self: center;
+  align-self: top;
+  text-align: left;
+}
+
+.jspsych-content .jspsych-instructions-column-left-narrow {
+  grid-column: 3 / span 2;
+  grid-row: 1 / span 7;
+  justify-self: center;
+  align-self: top;
+  text-align: left;
+}
+
+.jspsych-content .jspsych-instructions-column-right-narrow {
+  grid-column: 8 / span 2;
+  grid-row: 1 / span 7;
+  justify-self: center;
+  align-self: top;
+  text-align: left;
+}
+.jspsych-content .jspsych-instructions-body-top {
+  grid-column: 2 / span 9;
+  grid-row: 1 / span 3;
+  justify-self: center;
+  align-self: top;
+}
+
+.jspsych-content .jspsych-instructions-body-column-left {
+  grid-column: 2 / span 5;
+  grid-row: 4 / span 4;
+  justify-self: center;
+  align-self: top;
+}
+
+.jspsych-content .jspsych-instructions-body-column-right {
+  grid-column: 6 / span 5;
+  grid-row: 4 / span 4;
+  justify-self: center;
+  align-self: top;
+}
+
+.jspsych-content img {
+  height: 100%;
+  width: auto;
+  align-self: center;
+  justify-self: center;
+}
+
+.jspsych-instructions-nav {
+  grid-column: 1 / span 11;
+  grid-row: 9;
+}
+
+/* html button response */
+#jspsych-html-button-response-stimulus {
+  grid-column: 2 / span 9;
+  grid-row: 1 / span 5;
+  align-self: center;
+  justify-self: center;
+}
+
+#jspsych-html-button-response-btngroup {
+  grid-column: 1 / span 11;
+  grid-row: 7;
+  align-self: center;
+  justify-self: center;
+}
+
+/* html slider response */
+
+#jspsych-html-slider-response-wrapper {
+  grid-column: 2 / span 9;
+  grid-row: 1 / span 5;
+  align-items: top;
+  justify-items: center;
+  margin: 0px !important;
+}
+
+#jspsych-html-slider-response-next {
+  grid-column: 1 / span 11;
+  grid-row: 7;
+  align-self: center;
+  justify-self: center;
+}
+
+#jspsych-html-slider-response-stimulus{
+  margin-bottom: 20px;
+}
+
+.jspsych-html-slider-response-container{
+  display: grid;
+  grid-template-columns: repeat(11, 1fr);
+  grid-template-rows: repeat(6, 70px);
+  gap: 30px;
+  max-width: 1920px;
+  margin: 20px auto;
+  max-height: 950px;
+  text-align: center;
+}
+
+.jspsych-slider{
+  grid-column: 2 / span 9;
+  grid-row: 1 / span 2;
+  align-items: center;
+  justify-items: center;
+  margin: 0px;
+}
+
+.current_value {
+  grid-column: 5 / span 3;
+  grid-row: 3;
+  align-items: center;
+  justify-items: center;
+}
+
+.slider-anchor-left{
+  grid-column: 2 / span 2;
+  grid-row: 3;
+  justify-self: left;
+  align-self: center;
+}
+
+.slider-anchor-right{
+  grid-column: 9 / span 2;
+  grid-row: 3;
+  justify-self: right;
+  align-self: center;
+}
+
+.slider-anchor-middle{
+  grid-column: 5 / span 3;
+  grid-row: 3;
+  align-items: center;
+  justify-items: center;
+}
+
+/* image slider response */
+#jspsych-image-slider-response-wrapper {
+  grid-column: 2 / span 9;
+  grid-row: 2 / span 4;
+  align-items: top;
+  justify-items: center;
+  margin: 0px !important;
+}
+
+#jspsych-image-slider-response-stimulus {
+  margin-bottom: 20px;
+  height: 100%;
+  width: auto;
+  align-self: center;
+  justify-self: center;
+}
+
+#jspsych-image-slider-response-next {
+  grid-column: 1 / span 11;
+  grid-row: 9;
+  align-self: center;
+  justify-self: center;
+}
+
+.jspsych-image-slider-response-prompt {
+  grid-column: 2 / span 9;
+  grid-row: 1;
+  align-self: center;
+  justify-self: center;
+}
+
+.jspsych-image-slider-response-container {
+  display: grid;
+  grid-template-columns: repeat(11, 1fr);
+  grid-template-rows: repeat(6, 70px);
+  gap: 30px;
+  max-width: 1920px;
+  margin: 20px auto;
+  max-height: 950px;
+  text-align: center;
+}
+
+/* slider style */
+.jspsych-slider {
+  width: 80%;
+  height: 25px;
+  -webkit-appearance: none;
+  appearance: none;   
+  background-color: #008E8E; /*#ffbe00 or #008E8E */
+  padding: 10px 30px;
+  border-radius: 50px;
+  margin-top: 50px;
+  align-self: center;
+  justify-self: center;
+}
+
+.jspsych-slider:focus {
+  outline: none;
+}
+
+.current_value {
+  color: black;
+  font-size: 40pt;
+  margin: 20px;
+  text-decoration: none;
+}
+
+/* track */
+/*.jspsych-slider::-webkit-slider-runnable-track {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  height: 20px;
+  cursor: pointer;
+  background: #660f0f;
+  box-shadow: 3px 3px 8px #000000, 0px 0px 0px #0d0d0d;
+  border-radius: 20px;
+  border: 0px solid #aaa;
+}*/
+
+.jspsych-slider::-moz-range-track {
+  appearance: none;
+  width: 100%;
+  height: 20px;
+  cursor: none;
+  background: #eee;
+  box-shadow: 3px 3px 8px #000000, 0px 0px 0px #0d0d0d;
+  border-radius: 20px;
+  border: 1px solid #aaa;
+}
+
+.jspsych-slider::-ms-track {
+  appearance: none;
+  width: 99%;
+  height: 20px;
+  cursor: none;
+  background: #eee;
+  box-shadow: 8px 8px 30px #000000, 0px 0px 0px #0d0d0d;
+  border-radius: 20px;
+  border: 1px solid #aaa;
+}
+
+/* thumb */
+.jspsych-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100px;
+  height: 100px;
+  background: url('slider-brain.png') no-repeat center;
+  background-size: cover;
+}
+
+.jspsych-slider::-moz-range-thumb {
+  border: 2px solid #666;
+  height: 35px;
+  width: 35px;
+  border-radius: 40px;
+  background: #57b0aa;
+  box-shadow: 8px 8px 50px #000000, 0px 0px 0px #0d0d0d;
+  cursor: pointer;
+  border-color: #a21d1d;
+  /* -webkit-appearance: none;*/
+  margin-top: -9px;
+}
+
+.jspsych-slider::-ms-thumb {
+  border: 2px solid #666;
+  height: 35px;
+  width: 35px;
+  border-radius: 40px;
+  background: #57b0aa;
+  box-shadow: 8px 8px 50px #000000, 0px 0px 0px #0d0d0d;
+  cursor: pointer;
+  border-color: #a21d1d;
+  -webkit-appearance: none;
+  margin-top: -9px;
+}
+
+
+/* html keyboard response */
+#jspsych-html-keyboard-response-stimulus {
+  grid-column: 2 / span 9;
+  grid-row: 1 / span 7;
+  justify-self: center;
+  align-self: center;
+  font-size: 100pt;
+}
+
+.jspsych-html-keyboard-response-prompt {
+  grid-column: 2 / span 9;
+  grid-row: 8 / span 2;
+  justify-self: center;
+  align-self: center;
+}
+
+
+/* image keyboard response */
+#jspsych-image-keyboard-response-stimulus {
+  grid-column: 2 / span 9;
+  grid-row: 1 / span 7;
+  height: 100%;
+  width: auto;
+  justify-self: center;
+  align-self: center;
+}
+
+.jspsych-image-keyboard-response-prompt {
+  grid-column: 1 / span 11;
+  grid-row: 9;
+  justify-self: center;
+  align-self: center;
+}
+
+
+/* image button response */
+.jspsych-image-button-response-prompt {
+  grid-column: 1 / span 11;
+  grid-row: 1;
+  justify-self: center;
+  align-self: center;
+}
+
+#jspsych-image-button-response-button {
+  grid-column: 2 / span 8;
+  grid-row: 8;
+  align-self: center;
+  justify-self: center;
+}
+
+#jspsych-image-button-response-stimulus {
+  grid-column: 1 / span 11;
+  grid-row: 2 / span 5;
+  justify-self: center;
+  align-self: center;
+}
+
+#jspsych-image-button-response-btngroup {
+  grid-column: 1 / span 11;
+  grid-row: 8;
+  align-self: center;
+  justify-self: center;
+}
+
+/* visual searchlight */
+/*
+.jspsych-visual-searchlight-response-prompt {
+  grid-column: 1 / span 11;
+  grid-row: 1;
+  justify-self: center;
+  align-self: center;
+}
+
+#jspsych-visual-searchlight-response-button {
+  grid-column: 2 / span 8;
+  grid-row: 8;
+  align-self: center;
+  justify-self: center;
+}
+
+#jspsych-image-button-response-stimulus {
+  grid-column: 1 / span 11;
+  grid-row: 2 / span 5;
+  height: 100%;
+  width: auto;
+  justify-self: center;
+  align-self: center;
+}
+
+#jspsych-image-button-response-btngroup {
+  grid-column: 1 / span 11;
+  grid-row: 8;
+  align-self: center;
+  justify-self: center;
+}
+  */
+
+#jspsych-visual-spotlight-overlay {
+  grid-column: 1 / span 11;
+  grid-row: 2 / span 5;
+  justify-self: center;
+  align-self: center;
+}
+
+
+:root {
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+}
+ /*
+.mask {
+  width: 100vw;
+  height: 100vh;
+  background-color: hsla(0,0%,0%, 0.9);
+  mask: radial-gradient(
+    circle at var(--mouse-x) var(--mouse-y),
+    transparent 40px,
+    black 150px
+  );
+
+  -webkit-mask: radial-gradient(
+    circle at var(--mouse-x) var(--mouse-y),
+    transparent 40px,
+    black 150px
+  );
+} */
+
+/* survey multi choice */
+#jspsych-survey-multi-choice-form {
+  grid-column: 2 / span 9;
+  grid-row: 1 / span 10;
+  justify-self: center;
+  align-self: top;
+}
+
+.required {
+  display: none;
+  /* hides the * for questions that are required too be filled out but keeps the choice mandatory */
+}
+
+#jspsych-survey-multi-choice-0 {
+  text-align: center;
+  font-size: 30pt;
+  margin: 20px;
+}
+
+/* moves the option towards the middle if you have more options copy and paste one of them and change the number in ID to corresponding option - 1 (e.g option 7 is number 6)*/
+#jspsych-survey-multi-choice-option-0-0 {
+  text-align: left;
+  transform: translateX(25%);
+}
+
+#jspsych-survey-multi-choice-option-0-1 {
+  text-align: left;
+  transform: translateX(25%);
+}
+
+#jspsych-survey-multi-choice-option-0-2 {
+  text-align: left;
+  transform: translateX(25%);
+}
+
+#jspsych-survey-multi-choice-option-0-3 {
+  text-align: left;
+  transform: translateX(25%);
+}
+
+#jspsych-survey-multi-choice-option-0-4 {
+  text-align: left;
+  transform: translateX(25%);
+}
+
+#jspsych-survey-multi-choice-option-0-5 {
+  text-align: left;
+  transform: translateX(25%);
+}
+
+/* changes the radio label */
+input[type="radio"] {
+  /* Add if not using autoprefixer */
+  -webkit-appearance: none;
+  appearance: none;
+  /* For iOS < 15 to remove gradient background */
+  background-color: #fffefa;
+  /* Not removed via appearance */
+  margin: 0;
+  font: inherit;
+  color: currentColor;
+  width: 0.75em;
+  /* changes size circle */
+  height: 0.75em;
+  /* changes size circle */
+  border: 0.075em solid #8f0100;
+  /* changes thickness border of circle */
+  border-radius: 50%;
+  /* changes the radius of the circle */
+  transform: translateY(1em);
+  /* changes the position of the label in relation to the text (not working)*/
+  transform: translateX(-0.8em);
+  /* distance between label and text */
+}
+
+input[type="radio"]:checked {
+  background-color: #8f0100;
+}
+
+/* survey multi select */
+#jspsych-survey-multi-select-form {
+  grid-column: 2 / span 9;
+  grid-row: 1 / span 10;  
+  justify-self: center;
+  align-self: top;
+}
+
+#jspsych-survey-multi-select-0 {
+  text-align: left;
+  font-size: 30pt;
+  margin: 20px;
+}
+
+.jspsych-survey-multi-select-instruction {
+  font-size: 20pt !important;
+  text-align: center;
+  margin: 0px;
+}
+
+/* moves the option towards the middle if you have more options copy and paste one of them and change the number in ID to corresponding option - 1 (e.g option 7 is number 6)*/
+#jspsych-survey-multi-select-option-0-0 {
+  transform: translateX(25%);
+}
+
+#jspsych-survey-multi-select-option-0-1 {
+  transform: translateX(25%);
+}
+
+#jspsych-survey-multi-select-option-0-2 {
+  transform: translateX(25%);
+}
+
+#jspsych-survey-multi-select-option-0-3 {
+  transform: translateX(25%);
+}
+
+#jspsych-survey-multi-select-option-0-4 {
+  transform: translateX(25%);
+}
+
+#jspsych-survey-multi-select-option-0-5 {
+  transform: translateX(25%);
+}
+
+/* changes checkbox */
+input[type="checkbox"] {
+  /* Add if not using autoprefixer */
+  -webkit-appearance: none;
+  appearance: none;
+  /* For iOS < 15 to remove gradient background */
+  background-color: #fffaeb;
+  /* Not removed via appearance */
+  margin: 0;
+  font: inherit;
+  color: currentColor;
+  width: 0.75em;
+  /* changes size circle */
+  height: 0.75em;
+  /* changes size circle */
+  border: 0.075em solid #8f0100;
+  /* changes thickness border of circle */
+  border-radius: 50%;
+  /* changes the radius of the circle */
+  transform: translateY(1em);
+  /* changes the position of the label in relation to the text (not working)*/
+  transform: translateX(-1em);
+  /* distance between label and text */
+}
+
+input[type="checkbox"]:checked {
+  background-color: #8f0100;
+}
+
+/* animation */
+#jspsych-animation-image {
+  grid-column: 2 / span 9;
+  grid-row: 1 / span 7;
+  height: 100%;
+  width: auto;
+  justify-self: center;
+  align-self: center;
+}
+
+.jspsych-animation-prompt {
+  grid-column: 2 / span 9;
+  grid-row: 9;
+  justify-self: center;
+  align-self: center;
+}
+
+/* general */
+.jspsych-top {
+  align-items: flex-start;
+}
+
+.jspsych-middle {
+  align-items: center;
+}
+
+/* fonts and type */
+
+/* .jspsych-display-element {
+  font-family: "Calibri";
+  color: black;
+  font-size: 30pt;
+  line-height: 1.6em;
+
+} */
+
+/* Form elements like input fields and buttons */
+
+.jspsych-display-element input[type="text"] {
+  font-family: "Atkinson Hyperlegible";
+  color: black;
+  font-size: 40pt;
+}
+
+/* jsPsych progress bar */
+
+#jspsych-progressbar-container {
+  color: #555;
+  border-bottom: 1px solid #dedede;
+  background-color: #f9f9f9;
+  margin-bottom: 1em;
+  text-align: center;
+  padding: 8px 0px;
+  width: 100%;
+  line-height: 1em;
+}
+
+#jspsych-progressbar-container span {
+  font-size: 14px;
+  padding-right: 14px;
+}
+
+#jspsych-progressbar-outer {
+  background-color: #eee;
+  width: 50%;
+  margin: auto;
+  height: 14px;
+  /* display: inline-block; */
+  vertical-align: middle;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+#jspsych-progressbar-inner {
+  background-color: #aaa;
+  width: 0%;
+  height: 100%;
+}
+
+/* Control appearance of jsPsych.data.displayData() */
+#jspsych-data-display {
+  text-align: left;
+}
